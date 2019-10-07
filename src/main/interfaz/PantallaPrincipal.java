@@ -13,11 +13,8 @@ import main.interfaz.controles.general.Esquema;
 public class PantallaPrincipal extends JFrame {
 
 	private JPanel contenido;
-	private JMapViewer mapa;
+	private Mapa mapa;
 
-	/**
-	 * Create the frame.
-	 */
 	public PantallaPrincipal() {	
 		inicializarMarco();	
 		inicializarMapa();
@@ -31,7 +28,11 @@ public class PantallaPrincipal extends JFrame {
 	}
 
 	private void inicializarMapa() {
-		mapa = Mapa.generar(Mapa.coordenada(-34.6179915, -58.5033382), 10);
-		contenido.add(mapa);
+		mapa = new Mapa(Mapa.generarCoordenada(-34.6179915, -58.5033382), 10);
+		contenido.add(mapa.obtenerViewer());
+		
+		mapa.agregarMarcador(-34.6179915, -58.5033382);
+		
+		mapa.agregarLinea(Mapa.generarCoordenada(-34.6179915, -58.5033382), Mapa.generarCoordenada(-34.6179915, -60.5033382));
 	}
 }

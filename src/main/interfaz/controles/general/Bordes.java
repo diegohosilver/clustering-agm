@@ -1,32 +1,24 @@
 package main.interfaz.controles.general;
 
+import java.awt.Color;
+
+import javax.swing.BorderFactory;
+import javax.swing.border.Border;
+
+import main.interfaz.Utilidades;
+
 public class Bordes {
-	private int _up;
-	private int _left;
-	private int _down;
-	private int _right;
+	private Border _borde;
 	
-	public Bordes(int up, int left, int down, int right) {
-		_up = up;
-		_left = left;
-		_down = down;
-		_right = right;
+	public Bordes(Color color) {
+		if (Utilidades.objetoEsNulo(color)) {
+			throw new IllegalArgumentException("Color no puede estar vacio");
+		}
+		
+		_borde = BorderFactory.createLineBorder(color);
 	}
 	
-	public int obtenerArriba() {
-		return _up;
+	public Border obtenerBorde() {
+		return _borde;
 	}
-	
-	public int obtenerIzquierda() {
-		return _left;
-	}
-	
-	public int obtenerAbajo() {
-		return _down;
-	}
-	
-	public int obtenerDerecha() {
-		return _right;
-	}
-	
 }

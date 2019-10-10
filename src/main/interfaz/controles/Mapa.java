@@ -83,7 +83,8 @@ public class Mapa {
 	
 	public void cargarCoordenadas(List<String> coordenadas) {
 		for(String coordenada : coordenadas) {
-			String[] latitudYLongitud = coordenada.split(" ", 2);
+			
+			String[] latitudYLongitud = coordenada.trim().split(" ", 2);
 			
 			if (latitudYLongitud.length > 1) {		
 				agregarMarcador(

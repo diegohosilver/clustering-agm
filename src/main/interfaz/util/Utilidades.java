@@ -12,6 +12,8 @@ import javax.swing.JOptionPane;
 
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 
+import main.interfaz.controles.Alerta;
+
 public class Utilidades {
 	
 	public static boolean stringEsVacioONulo(String cadena) {
@@ -39,7 +41,7 @@ public class Utilidades {
 			lineas.close();
 		}
 		catch(Exception ex) {
-			JOptionPane.showMessageDialog(null, "Ocurrió un error al abrir el archivo");
+			Alerta.mostrar("Ocurrio un error al abrir el archivo");
 		}
 		
 		return renglones;

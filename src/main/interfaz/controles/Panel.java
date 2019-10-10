@@ -2,9 +2,9 @@ package main.interfaz.controles;
 
 import javax.swing.JPanel;
 
-import main.interfaz.Utilidades;
 import main.interfaz.controles.general.Bordes;
 import main.interfaz.controles.general.Dimensiones;
+import main.interfaz.util.Utilidades;
 
 public class Panel {
 	

@@ -16,6 +16,7 @@ import main.interfaz.controles.Panel;
 import main.interfaz.controles.SelectorArchivo;
 import main.interfaz.controles.general.Bordes;
 import main.interfaz.controles.general.Dimensiones;
+import main.interfaz.util.Utilidades;
 
 import java.awt.Color;
 

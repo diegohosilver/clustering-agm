@@ -5,8 +5,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
-import main.interfaz.Utilidades;
 import main.interfaz.controles.general.Dimensiones;
+import main.interfaz.util.Utilidades;
 
 public class Boton {
 	

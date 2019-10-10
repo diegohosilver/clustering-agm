@@ -9,7 +9,7 @@ import org.openstreetmap.gui.jmapviewer.LayerGroup;
 import org.openstreetmap.gui.jmapviewer.MapMarkerDot;
 import org.openstreetmap.gui.jmapviewer.MapPolygonImpl;
 
-import main.interfaz.Utilidades;
+import main.interfaz.util.Utilidades;
 
 public class Mapa {
 	

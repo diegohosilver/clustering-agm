@@ -5,7 +5,7 @@ import java.awt.Color;
 import javax.swing.BorderFactory;
 import javax.swing.border.Border;
 
-import main.interfaz.Utilidades;
+import main.interfaz.util.Utilidades;
 
 public class Bordes {
 	private Border _borde;

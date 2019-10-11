@@ -69,7 +69,7 @@ public class PantallaPrincipal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				File archivo = selectorDeArchivo.seleccionarArchivo();
 
-				if (Varios.objetoEsNulo(archivo)) {
+				if (!Varios.objetoEsNulo(archivo)) {
 					levantarCoordenadasDesdeArchivo(archivo.getAbsolutePath());
 	
 					establecerEstadoBotonArchivo(false);

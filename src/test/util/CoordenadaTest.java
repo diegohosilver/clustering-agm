@@ -5,48 +5,59 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import main.interfaz.controles.Mapa;
+import main.interfaz.util.Coordenada;
 import main.interfaz.util.Unidad;
-import main.interfaz.util.Utilidades;
+import main.interfaz.util.Varios;
 
 public class CoordenadaTest {
 
 	@Test
 	public void LongitudValidaTest() {
-		assertTrue(Utilidades.longitudEsValida(0));
+		assertTrue(Coordenada.longitudEsValida(0));
 	}
 	
 	@Test
 	public void LongitudInvalidaTest() {
-		assertFalse(Utilidades.longitudEsValida(-180));
-		assertFalse(Utilidades.longitudEsValida(180));
+		assertFalse(Coordenada.longitudEsValida(-180));
+		assertFalse(Coordenada.longitudEsValida(180));
 	}
 	
 	@Test
 	public void LatitudValidaTest() {
-		assertTrue(Utilidades.latitudEsValida(0));
+		assertTrue(Coordenada.latitudEsValida(0));
 	}
 	
 	@Test
 	public void LatitudInvalidaTest() {
-		assertFalse(Utilidades.latitudEsValida(-90));
-		assertFalse(Utilidades.latitudEsValida(90));
+		assertFalse(Coordenada.latitudEsValida(-90));
+		assertFalse(Coordenada.latitudEsValida(90));
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void CalcularDistanciaSinCoordenadaTest() {
-		Utilidades.distanciaEntreCoordenadas(null, null, Unidad.Kilometros);
+		Coordenada.distanciaEntreCoordenadas(null, null, Unidad.Kilometros);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void CoordenadaConLatitudInvalidaTest() {
+		Coordenada.generar(10000, 80);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void CoordenadaConLongitudInvalidaTest() {
+		Coordenada.generar(-54.2, 10000);
 	}
 	
 	@Test
 	public void CalcularDistanciaEnKilometros() {
-		double distancia = Utilidades.distanciaEntreCoordenadas(Mapa.generarCoordenada(-34.501719, -58.623297), Mapa.generarCoordenada(-34.521492, -58.700788), Unidad.Kilometros);
+		double distancia = Coordenada.distanciaEntreCoordenadas(Coordenada.generar(-34.501719, -58.623297), Coordenada.generar(-34.521492, -58.700788), Unidad.Kilometros);
 		
 		assertEquals(7.42, distancia, 0.5);
 	}
 	
 	@Test
 	public void CalcularDistanciaEnMillas() {
-		double distancia = Utilidades.distanciaEntreCoordenadas(Mapa.generarCoordenada(-34.501719, -58.623297), Mapa.generarCoordenada(-34.521492, -58.700788), Unidad.Millas);
+		double distancia = Coordenada.distanciaEntreCoordenadas(Coordenada.generar(-34.501719, -58.623297), Coordenada.generar(-34.521492, -58.700788), Unidad.Millas);
 		
 		assertEquals(4.61, distancia, 0.5);
 	}

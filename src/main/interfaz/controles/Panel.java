@@ -4,18 +4,18 @@ import javax.swing.JPanel;
 
 import main.interfaz.controles.general.Bordes;
 import main.interfaz.controles.general.Dimensiones;
-import main.interfaz.util.Utilidades;
+import main.interfaz.util.Varios;
 
 public class Panel {
 	
 	private static void validarDimensiones(Dimensiones dimensiones) {
-		if (Utilidades.objetoEsNulo(dimensiones)) {
+		if (Varios.objetoEsNulo(dimensiones)) {
 			throw new IllegalArgumentException("Dimensiones no puede estar vacio");
 		}
 	}
 	
 	private static void validarBordes(Bordes bordes) {
-		if (Utilidades.objetoEsNulo(bordes)) {
+		if (Varios.objetoEsNulo(bordes)) {
 			throw new IllegalArgumentException("Bordes no puede estar vacio");
 		}
 	}

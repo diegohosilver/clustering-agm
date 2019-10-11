@@ -9,7 +9,7 @@ import org.openstreetmap.gui.jmapviewer.LayerGroup;
 import org.openstreetmap.gui.jmapviewer.MapMarkerDot;
 import org.openstreetmap.gui.jmapviewer.MapPolygonImpl;
 
-import main.interfaz.util.Utilidades;
+import main.interfaz.util.*;
 
 public class Mapa {
 	
@@ -17,30 +17,21 @@ public class Mapa {
 	private LayerGroup _capaMaestra;
 	private Layer _capa;
 	
-	public Mapa(Coordinate coordenada, int zoom) {
-		if (Utilidades.objetoEsNulo(coordenada)) {
-			throw new IllegalArgumentException("Coordenada no puede estar vacia");
-		}
-		
+	public Mapa() {		
 		_viewer = new JMapViewer();
-		_viewer.setDisplayPosition(coordenada, zoom);
 		_viewer.setSize(1280, 620);
-	}
-	
-	public static Coordinate generarCoordenada(double latitud, double longitud) {
-		if (!Utilidades.latitudEsValida(latitud)) {
-			throw new IllegalArgumentException("Latitud debe ser mayor a -90 y menor a 90");
-		}
-		
-		if (!Utilidades.longitudEsValida(longitud)) {
-			throw new IllegalArgumentException("Longitud debe ser mayor a -180 y menor a 180");
-		}
-		
-		return new Coordinate(latitud, longitud);
 	}
 	
 	public JMapViewer obtenerViewer() {
 		return _viewer;
+	}
+	
+	public void establecerVista(Coordinate coordenada, int zoom) {
+		if (Varios.objetoEsNulo(coordenada)) {
+			throw new IllegalArgumentException("Coordenada no puede estar vacia");
+		}
+		
+		_viewer.setDisplayPosition(coordenada, zoom);
 	}
 	
 	public void agregarMarcador(double latitud, double longitud) {
@@ -56,7 +47,7 @@ public class Mapa {
 			inicializarCapas();
 		}
 		
-		if (Utilidades.stringEsVacioONulo(nombre)) {
+		if (Varios.stringEsVacioONulo(nombre)) {
 			agregarMarcador(latitud, longitud);
 		}
 		else {
@@ -65,7 +56,7 @@ public class Mapa {
 	}
 	
 	public void agregarLinea(Coordinate coordenada1, Coordinate coordenada2) {
-		if (Utilidades.objetoEsNulo(coordenada1) || Utilidades.objetoEsNulo(coordenada2)) {
+		if (Varios.objetoEsNulo(coordenada1) || Varios.objetoEsNulo(coordenada2)) {
 			throw new IllegalArgumentException("Coordenada no puede estar vacia");
 		}
 		
@@ -78,7 +69,7 @@ public class Mapa {
 	}
 	
 	private boolean viewerPoseeCapas() {
-		return !Utilidades.objetoEsNulo(_capaMaestra) && Utilidades.objetoEsNulo(_capa);
+		return !Varios.objetoEsNulo(_capaMaestra) && Varios.objetoEsNulo(_capa);
 	}
 	
 	public void cargarCoordenadas(List<String> coordenadas) {
@@ -88,10 +79,23 @@ public class Mapa {
 			
 			if (latitudYLongitud.length > 1) {		
 				agregarMarcador(
-						Utilidades.stringADouble(latitudYLongitud[0]),
-						Utilidades.stringADouble(latitudYLongitud[1])
+						Varios.stringADouble(latitudYLongitud[0]),
+						Varios.stringADouble(latitudYLongitud[1])
 						);
 			}
 		}	
+	}
+	
+	public void vaciar() {
+		removerMarcadores();
+		removerLineas();
+	}
+	
+	public void removerMarcadores() {
+		_viewer.removeAllMapMarkers();
+	}
+	
+	public void removerLineas() {
+		_viewer.removeAllMapPolygons();
 	}
 }

@@ -1,28 +1,8 @@
 package main.interfaz.util;
 
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import javax.swing.JOptionPane;
-
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 
-import main.interfaz.controles.Alerta;
-
-public class Utilidades {
-	
-	public static boolean stringEsVacioONulo(String cadena) {
-		return !(cadena != null && cadena.length() > 0);
-	}
-
-	public static boolean objetoEsNulo(Object instancia) {
-		return instancia == null;
-	}
+public class Coordenada {
 	
 	public static boolean latitudEsValida(double latitud) {
 		return (latitud > -90 && latitud < 90);
@@ -32,33 +12,9 @@ public class Utilidades {
 		return (longitud > -180 && longitud < 180);
 	}
 	
-	public static List<String> leerArchivo(String path) {
-		 List<String> renglones = new ArrayList<String>();
-		
-		try {
-			Stream<String> lineas = Files.lines(Paths.get(path), Charset.defaultCharset());
-			renglones = lineas.collect(Collectors.toList());
-			lineas.close();
-		}
-		catch(Exception ex) {
-			Alerta.mostrar("Ocurrio un error al abrir el archivo");
-		}
-		
-		return renglones;
-	}
-	
-	public static double stringADouble(String valor) {
-		try {
-			return Double.parseDouble(valor);
-		}
-		catch(Exception ex) {
-			return 0;
-		}
-	}
-	
 	// Función extraída del siguiente enlace -> https://www.geodatasource.com/developers/java
 	public static double distanciaEntreCoordenadas(Coordinate coordenada1, Coordinate coordenada2, Unidad unidad) {
-		if (objetoEsNulo(coordenada1) || objetoEsNulo(coordenada2)) {
+		if (Varios.objetoEsNulo(coordenada1) || Varios.objetoEsNulo(coordenada2)) {
 			throw new IllegalArgumentException("Coordenada no puede estar vacio");
 		}
 		
@@ -86,4 +42,17 @@ public class Utilidades {
 			return dist;
 		}
 	}
+	
+	public static Coordinate generar(double latitud, double longitud) {
+		if (!Coordenada.latitudEsValida(latitud)) {
+			throw new IllegalArgumentException("Latitud debe ser mayor a -90 y menor a 90");
+		}
+		
+		if (!Coordenada.longitudEsValida(longitud)) {
+			throw new IllegalArgumentException("Longitud debe ser mayor a -180 y menor a 180");
+		}
+		
+		return new Coordinate(latitud, longitud);
+	}
+
 }

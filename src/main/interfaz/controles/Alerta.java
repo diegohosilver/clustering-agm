@@ -2,12 +2,12 @@ package main.interfaz.controles;
 
 import javax.swing.JOptionPane;
 
-import main.interfaz.util.Utilidades;
+import main.interfaz.util.Varios;
 
 public class Alerta {
 
 	public static void mostrar(String mensaje) {
-		if (Utilidades.stringEsVacioONulo(mensaje)) {
+		if (Varios.stringEsVacioONulo(mensaje)) {
 			throw new IllegalArgumentException("Mensaje no puede estar vacio");
 		}
 		

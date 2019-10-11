@@ -6,33 +6,13 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
 import main.interfaz.controles.general.Dimensiones;
-import main.interfaz.util.Utilidades;
+import main.interfaz.util.Varios;
 
 public class Boton {
-	
-	// Arrojar excepcion por texto vacio
-	private static void validarTextoVacio(String texto) {
-		if (Utilidades.stringEsVacioONulo(texto)) {
-			throw new IllegalArgumentException("Texto no puede estar vacio");
-		}
-	}
-	
-	private static void validarEvento(ActionListener evento) {
-		if (Utilidades.objetoEsNulo(evento)) {
-			throw new IllegalArgumentException("Evento no puede estar vacio");
-		}
-	}
-	
-	private static void validarDimensiones(Dimensiones dimensiones) {
-		if (Utilidades.objetoEsNulo(dimensiones)) {
-			throw new IllegalArgumentException("Dimensiones no puede estar vacio");
-		}
-	}
-	
 
 	private static JButton generarBotonConPropiedades(String texto, Dimensiones dimensiones, int fuente, float tamanio) {
-		validarTextoVacio(texto);	
-		validarDimensiones(dimensiones);
+		Varios.validarTextoVacio(texto);	
+		Varios.validarDimensiones(dimensiones);
 		
 		JButton boton = new JButton(texto);
 		
@@ -43,7 +23,7 @@ public class Boton {
 	}
 	
 	public static JButton generar(String texto, Dimensiones dimensiones, ActionListener evento) {
-		validarEvento(evento);
+		Varios.validarEvento(evento);
 		
 		JButton boton = generarBotonConPropiedades(texto, dimensiones, Font.BOLD, 15F);
 		boton.addActionListener(evento);

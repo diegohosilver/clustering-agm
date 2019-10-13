@@ -40,7 +40,7 @@ public class Vertice {
  		else
  		{
  			int posicion;
- 			posicion = existeArista(verticeDestino);
+ 			posicion = vecinoUnidoPorArista(verticeDestino);
  			if (posicion == -1)
  			{
  				_vecinos.add(new Vecino(verticeDestino, peso));
@@ -49,7 +49,7 @@ public class Vertice {
  		}
  	}
  
- 	public int existeArista(int verticeDestino)
+ 	public int vecinoUnidoPorArista(int verticeDestino)
  	{
  		for (int i = 0; i < _vecinos.size(); i++)
  		{

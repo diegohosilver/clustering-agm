@@ -68,6 +68,15 @@ public class AgregarAristaTest
 		grafo.agregarArista(2, 4, 1);
 		assertTrue( grafo.existeArista(new Arista(2, 4, 1)) );
 	}
+	
+	@Test
+	public void aristaInvertidaTest()
+	{
+		agregarVertices(Arrays.asList(2, 4));
+		
+		grafo.agregarArista(2, 4, 1);
+		assertTrue( grafo.existeArista(new Arista(4, 2, 1)) );
+	}
 
 	@Test
 	public void aristaRepetidaTest()

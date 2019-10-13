@@ -44,8 +44,8 @@ public class Arista {
  		
  		Arista a = (Arista) o;
  		
- 		return this.obtenerVerticeInicial() == a.obtenerVerticeInicial() 
-					&& this.obtenerVerticeFinal() == a.obtenerVerticeFinal()
+ 		return (this.obtenerVerticeInicial() == a.obtenerVerticeInicial() || this.obtenerVerticeInicial() == a.obtenerVerticeFinal()) 
+					&& (this.obtenerVerticeFinal() == a.obtenerVerticeFinal() || this.obtenerVerticeFinal() == a.obtenerVerticeInicial())
 					&& this.obtenerPeso() == a.obtenerPeso();
  	}
 }

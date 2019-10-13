@@ -1,13 +1,14 @@
 package main.negocio.grafo;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Vertice {
 	private int _id;
-	private ArrayList<Vecino> _vecinos;
+	private List<Vecino> _vecinos;
  	private int _aristasExistentes;
  
- 	public ArrayList<Vecino> obtenerVecinos()
+ 	public List<Vecino> obtenerVecinos()
  	{
  		return _vecinos;
  	}

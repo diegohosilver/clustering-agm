@@ -2,10 +2,11 @@ package main.negocio.grafo;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 
 public class Grafo {
-	ArrayList <Integer> _idsVertices;
- 	ArrayList <Arista> _aristas;
+	List <Integer> _idsVertices;
+ 	List <Arista> _aristas;
  	Hashtable <Integer, Vertice> _vertices;
  
  	public Grafo()
@@ -21,10 +22,9 @@ public class Grafo {
  		_vertices.put(id, new Vertice(id));
  	}
 
- 	private void validarVertices(int verticeInicial, int verticeFinal) {
- 		if (verticeInicial < 0 || verticeFinal < 0) {
- 			throw new IllegalArgumentException("Vertice no puede ser negativo");
- 		}
+ 	private void validarVertices(int verticeInicial, int verticeFinal) { 		
+ 		verticeNegativo(verticeInicial);
+ 		verticeNegativo(verticeFinal);
  		
  		if (verticeInicial == verticeFinal) {
  			throw new IllegalArgumentException("No existen aristas entre un vertice y si mismo! vertice = " + verticeInicial);
@@ -32,6 +32,12 @@ public class Grafo {
  		
  		verticeExiste(verticeInicial);
  		verticeExiste(verticeFinal);
+ 	}
+ 	
+ 	private void verticeNegativo(int vertice) {
+ 		if (vertice < 0) {
+ 			throw new IllegalArgumentException("Vertice no puede ser negativo");
+ 		}
  	}
  	
  	private void verticeExiste(int vertice) {
@@ -61,17 +67,20 @@ public class Grafo {
  		for (int i = 0; i < _aristas.size(); i++)
  		{
  			Arista resultado = _aristas.get(i);
- 			
- 			
- 			if (arista.obtenerVerticeInicial() == resultado.obtenerVerticeInicial() 
- 					&& arista.obtenerVerticeFinal() == resultado.obtenerVerticeFinal()
- 					&& arista.obtenerPeso() == resultado.obtenerPeso())
+
+ 			if (resultado.equals(arista))
  			{
- 				_aristas.remove(resultado);
  				return true;
  			}
  		}
  		return false;
+ 	}
+ 	
+ 	public void eliminarArista(Arista arista)
+ 	{
+ 		if (existeArista(arista)) {
+ 			_aristas.remove(arista);
+ 		}
  	}
  	
  	public int buscarIndiceAristaPorPeso(float peso)
@@ -90,17 +99,20 @@ public class Grafo {
  		return _vertices;
  	}
  	
- 	public ArrayList<Integer> obtenerIdsVertices()
+ 	public List<Integer> obtenerIdsVertices()
  	{
  		return _idsVertices;
  	}
  	
  	public Vertice obtenerVertice(int id)
  	{
+ 		verticeNegativo(id);
+ 		verticeExiste(id);
+ 		
  		return _vertices.get(id);
  	}
  
- 	public ArrayList<Arista> obtenerAristas() {
+ 	public List<Arista> obtenerAristas() {
  		return _aristas;
  	}
  

@@ -27,4 +27,25 @@ public class Arista {
  	{
  		return _verticeFinal;
  	}
+ 	
+ 	@Override
+ 	public boolean equals(Object o) {
+ 		if (o == null) {
+ 			return false;
+ 		}
+ 		
+ 		if (o == this) {
+ 			return true;
+ 		}
+ 		
+ 		if (!(o instanceof Arista)) { 
+            return false; 
+        } 
+ 		
+ 		Arista a = (Arista) o;
+ 		
+ 		return this.obtenerVerticeInicial() == a.obtenerVerticeInicial() 
+					&& this.obtenerVerticeFinal() == a.obtenerVerticeFinal()
+					&& this.obtenerPeso() == a.obtenerPeso();
+ 	}
 }

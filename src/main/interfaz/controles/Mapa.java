@@ -1,6 +1,7 @@
 package main.interfaz.controles;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
@@ -8,6 +9,7 @@ import org.openstreetmap.gui.jmapviewer.Layer;
 import org.openstreetmap.gui.jmapviewer.LayerGroup;
 import org.openstreetmap.gui.jmapviewer.MapMarkerDot;
 import org.openstreetmap.gui.jmapviewer.MapPolygonImpl;
+import org.openstreetmap.gui.jmapviewer.interfaces.MapMarker;
 
 import main.interfaz.util.*;
 
@@ -84,6 +86,12 @@ public class Mapa {
 						);
 			}
 		}	
+	}
+	
+	public List<Coordinate> obtenerCoordenadas() {
+		List<MapMarker> marcadores = _viewer.getMapMarkerList();
+		
+		return marcadores.stream().map(x -> x.getCoordinate()).collect(Collectors.toList());
 	}
 	
 	public void vaciar() {

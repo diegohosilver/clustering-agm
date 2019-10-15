@@ -8,9 +8,12 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import org.openstreetmap.gui.jmapviewer.Coordinate;
+
 import java.io.File;
 
 import java.util.List;
+import java.util.Map;
 
 import main.interfaz.controles.Boton;
 import main.interfaz.controles.Etiqueta;
@@ -22,6 +25,9 @@ import main.interfaz.controles.combo.ComboItem;
 import main.interfaz.controles.general.Bordes;
 import main.interfaz.controles.general.Dimensiones;
 import main.interfaz.util.*;
+import main.negocio.Kruskal;
+import main.negocio.grafo.Arista;
+import main.negocio.grafo.Grafo;
 
 import java.awt.Color;
 
@@ -31,10 +37,21 @@ public class PantallaPrincipal extends JFrame {
 	private JPanel acciones;
 	private JButton botonArchivo;
 	private JButton botonLimpiar;
+	private JButton botonKruskal;
 	private Mapa mapa;
+
+	private Coleccion coleccion;
+	
+	// 
+	private Grafo grafo;
+	private Kruskal kruskal;
 
 	public PantallaPrincipal() {
 		super();
+		
+		coleccion = Coleccion.obtenerInstancia();
+		kruskal = new Kruskal();
+		
 		inicializarMarco();	
 		inicializarMapa();
 		inicializarSelectorDeArchivos();
@@ -59,6 +76,8 @@ public class PantallaPrincipal extends JFrame {
 		this.getContentPane().add(mapa.obtenerViewer());
 		
 		cargarInstancia(1);
+		
+		generarGrafo();
 	}
 
 	private void inicializarSelectorDeArchivos() {
@@ -71,9 +90,12 @@ public class PantallaPrincipal extends JFrame {
 
 				if (!Varios.objetoEsNulo(archivo)) {
 					levantarCoordenadasDesdeArchivo(archivo.getAbsolutePath());
+					
+					generarGrafo();
 	
 					establecerEstadoBotonArchivo(false);
 					establecerEstadoBotonLimpiar(true);
+					establecerEstadoBotonKruskal(true);
 				}
 			}
 		});
@@ -85,11 +107,24 @@ public class PantallaPrincipal extends JFrame {
 
 				establecerEstadoBotonArchivo(true);
 				establecerEstadoBotonLimpiar(false);
+				establecerEstadoBotonKruskal(false);
+			}
+		});
+		
+		botonKruskal = Boton.generar("Ejecutar kruskal", new Dimensiones(1107, 28, 150, 20), new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Thread t = algoritmoKruskalEnThread();
+					
+					t.start();
+				} catch (Exception e1) {}		
 			}
 		});
 
 		acciones.add(botonArchivo);
 		acciones.add(botonLimpiar);
+		acciones.add(botonKruskal);
 	}
 
 	private void inicializarSelectorDeInstancias() {	
@@ -98,12 +133,14 @@ public class PantallaPrincipal extends JFrame {
 		acciones.add(Combo.generar(new Dimensiones(5, 28, 130, 20), Instancias.listar(), new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mapa.removerMarcadores();
+				mapa.vaciar();
 				
 				JComboBox c = (JComboBox) e.getSource();
 				ComboItem item = (ComboItem) c.getSelectedItem();
 				
 				cargarInstancia(item.obtenerId());
+				
+				generarGrafo();
 				
 				establecerEstadoBotonArchivo(false);
 				establecerEstadoBotonLimpiar(true);
@@ -126,6 +163,66 @@ public class PantallaPrincipal extends JFrame {
 			mapa.cargarCoordenadas(coordenadas);
 		}
 	}
+	
+	private void generarGrafo() {	
+		grafo = new Grafo();
+		coleccion.limpiarCoordenadas();
+		
+		int vertice = 0;		
+		
+		for (Coordinate coordenada : mapa.obtenerCoordenadas()) {
+			coleccion.agregarCoordenada(vertice, coordenada);
+			
+			grafo.agregarVertice(vertice);
+			
+			vertice ++;
+		}
+	}
+
+	private Thread algoritmoKruskalEnThread() throws Exception {
+		return new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				establecerEstadoBotonKruskal(false);
+				
+				generarAristas();
+				
+				grafo = kruskal.ejecutarAlgoritmo(grafo);
+				
+				dibujarAristas();
+				
+				establecerEstadoBotonKruskal(true);
+			}
+			
+		});
+	}
+	
+	private void generarAristas() {
+		for (Map.Entry<Integer, Coordinate> item1 : coleccion.obtenerCoordenadas().entrySet()) {
+			for (Map.Entry<Integer, Coordinate> item2 : coleccion.obtenerCoordenadas().entrySet()) {
+				
+				// Evitar aristas sobre un mismo vertice
+				int vertice1 = item1.getKey();
+				int vertice2 = item2.getKey();
+				
+				if (vertice1 != vertice2) {
+					double distancia = Coordenada.distanciaEntreCoordenadas(item1.getValue(), item2.getValue(), Unidad.Kilometros);
+				
+					grafo.agregarArista(vertice1, vertice2, distancia);
+				}
+			}
+		}
+	}
+	
+	private void dibujarAristas() {
+		for (Arista arista : grafo.obtenerAristas()) {
+			Coordinate coordenada1 = coleccion.obtenerCoordenada(arista.obtenerVerticeInicial());
+			Coordinate coordenada2 = coleccion.obtenerCoordenada(arista.obtenerVerticeFinal());
+			
+			mapa.agregarLinea(coordenada1, coordenada2);
+		}
+	}
 
 	private void establecerEstadoBotonArchivo(Boolean activo) {
 		botonArchivo.setEnabled(activo);
@@ -133,5 +230,9 @@ public class PantallaPrincipal extends JFrame {
 
 	private void establecerEstadoBotonLimpiar(Boolean activo) {
 		botonLimpiar.setEnabled(activo);
+	}
+	
+	private void establecerEstadoBotonKruskal(Boolean activo) {
+		botonKruskal.setEnabled(activo);
 	}
 }

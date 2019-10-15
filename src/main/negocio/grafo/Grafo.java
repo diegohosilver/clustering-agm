@@ -46,7 +46,7 @@ public class Grafo {
  		}
  	}
  	
- 	public void agregarArista(int verticeInicial, int verticeFinal, float peso)
+ 	public void agregarArista(int verticeInicial, int verticeFinal, double peso)
  	{
  		validarVertices(verticeInicial, verticeFinal);
  		
@@ -83,7 +83,7 @@ public class Grafo {
  		}
  	}
  	
- 	public int buscarIndiceAristaPorPeso(float peso)
+ 	public int buscarIndiceAristaPorPeso(double peso)
  	{
  		for(int i = 0; i < _aristas.size(); i++)
  		{
@@ -115,5 +115,4 @@ public class Grafo {
  	public List<Arista> obtenerAristas() {
  		return _aristas;
  	}
- 
 }

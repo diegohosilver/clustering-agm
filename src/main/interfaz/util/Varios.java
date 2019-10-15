@@ -1,19 +1,6 @@
 package main.interfaz.util;
 
 import java.awt.event.ActionListener;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import javax.swing.JOptionPane;
-
-import org.openstreetmap.gui.jmapviewer.Coordinate;
-
-import main.interfaz.controles.Alerta;
 import main.interfaz.controles.general.Dimensiones;
 
 public class Varios {
@@ -51,5 +38,5 @@ public class Varios {
 		if (Varios.objetoEsNulo(dimensiones)) {
 			throw new IllegalArgumentException("Dimensiones no puede estar vacio");
 		}
-	}
+	}	
 }

@@ -2,6 +2,7 @@ package main.negocio.grafo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Vertice {
 	private int _id;
@@ -46,6 +47,14 @@ public class Vertice {
  				_vecinos.add(new Vecino(verticeDestino, peso));
  				_aristasExistentes++;
  			}
+ 		}
+ 	}
+ 	
+ 	public void eliminarVecino(int verticeFinal) {
+ 		Optional<Vecino> vecino = _vecinos.stream().filter(x -> verticeFinal == x.obtenerDestino()).findFirst();
+ 		
+ 		if (vecino.isPresent()) {
+ 			_vecinos.remove(vecino.get());
  		}
  	}
  

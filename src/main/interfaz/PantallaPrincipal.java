@@ -2,11 +2,16 @@ package main.interfaz;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 
@@ -20,6 +25,7 @@ import main.interfaz.controles.Etiqueta;
 import main.interfaz.controles.Mapa;
 import main.interfaz.controles.Panel;
 import main.interfaz.controles.SelectorArchivo;
+import main.interfaz.controles.Texto;
 import main.interfaz.controles.combo.Combo;
 import main.interfaz.controles.combo.ComboItem;
 import main.interfaz.controles.general.Bordes;
@@ -34,6 +40,7 @@ import java.awt.Color;
 public class PantallaPrincipal extends JFrame {
 
 	private SelectorArchivo selectorDeArchivo;
+	private JTextField texto;
 	private JPanel acciones;
 	private JButton botonArchivo;
 	private JButton botonLimpiar;
@@ -54,8 +61,9 @@ public class PantallaPrincipal extends JFrame {
 		
 		inicializarMarco();	
 		inicializarMapa();
-		inicializarSelectorDeArchivos();
+		inicializarBotones();
 		inicializarSelectorDeInstancias();
+		inicializarTexto();
 
 		establecerEstadoBotonArchivo(false);
 	}
@@ -80,7 +88,7 @@ public class PantallaPrincipal extends JFrame {
 		generarGrafo();
 	}
 
-	private void inicializarSelectorDeArchivos() {
+	private void inicializarBotones() {
 		selectorDeArchivo = new SelectorArchivo();
 
 		botonArchivo = Boton.generar("Abrir archivo", new Dimensiones(145, 28, 130, 20), new ActionListener() {
@@ -114,11 +122,32 @@ public class PantallaPrincipal extends JFrame {
 		botonKruskal = Boton.generar("Ejecutar kruskal", new Dimensiones(1107, 28, 150, 20), new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				establecerEstadoBotonKruskal(false);			
+				mapa.removerLineas();				
+				validarDensidad();
+				
 				try {
-					Thread t = algoritmoKruskalEnThread();
+					new SwingWorker() {
+
+						@Override
+						protected Boolean doInBackground() throws Exception {							
+							algoritmoKruskal();
+
+							return true;
+						}
+						
+						@Override
+					       protected void done() {
+					           try {
+									dibujarAristas();
+									
+									establecerEstadoBotonKruskal(true);
+					           } catch (Exception ex) {}
+					       }
+						
+					}.execute();			
 					
-					t.start();
-				} catch (Exception e1) {}		
+				} catch (Exception ex) {}
 			}
 		});
 
@@ -146,6 +175,13 @@ public class PantallaPrincipal extends JFrame {
 				establecerEstadoBotonLimpiar(true);
 			}
 		}));
+	}
+	
+	private void inicializarTexto() {
+		acciones.add(Etiqueta.generar("% Densidad:", new Dimensiones(1010, 5, 150, 20)));
+		
+		texto = Texto.generarTexto(new Dimensiones(1107, 5, 150, 20), Color.WHITE, true);
+		acciones.add(texto);
 	}
 	
 	private void cargarInstancia(int instancia) {		
@@ -178,24 +214,17 @@ public class PantallaPrincipal extends JFrame {
 			vertice ++;
 		}
 	}
+	
+	private void validarDensidad() {
+		texto.setText(Double.toString(Varios.stringADouble(texto.getText())));
+	}
 
-	private Thread algoritmoKruskalEnThread() throws Exception {
-		return new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				establecerEstadoBotonKruskal(false);
-				
-				generarAristas();
-				
-				grafo = kruskal.ejecutarAlgoritmo(grafo);
-				
-				dibujarAristas();
-				
-				establecerEstadoBotonKruskal(true);
-			}
-			
-		});
+	private void algoritmoKruskal() {		
+		generarAristas();
+		
+		grafo = kruskal.ejecutarAlgoritmo(grafo);
+		
+		grafo.eliminarAristasSobreMedia(Varios.stringADouble(texto.getText()));
 	}
 	
 	private void generarAristas() {

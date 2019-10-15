@@ -93,4 +93,16 @@ public class AgregarAristaTest
 	{
 		assertFalse( grafo.existeArista( new Arista(2, 0, 1)) );
 	}
+	
+	@Test
+	public void aristaPorPesoTest() {
+		agregarVertices(Arrays.asList(1, 2, 3, 4));
+		
+		grafo.agregarArista(1, 2, 10);
+		grafo.agregarArista(2, 3, 5);
+		grafo.agregarArista(3,  4, 3);
+		
+		// Buscar el índice indicado donde debería ir una nueva arista con peso 2
+		assertEquals(0, grafo.buscarIndiceAristaPorPeso(2) );
+	}
 }

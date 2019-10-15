@@ -17,11 +17,11 @@ public class Vertice {
  	public Vertice(int id)
  	{
  		_id = id;
- 		_aristasExistentes = -1;
+ 		_aristasExistentes = 0;
  		_vecinos = new ArrayList<Vecino>();
  	}
  
- 	public int obtenerCantidadAristas()
+ 	public int obtenerCantidadVecinos()
  	{
  		return _aristasExistentes;
  	}
@@ -31,9 +31,9 @@ public class Vertice {
  		return _id;
  	}
  
- 	public void agregarArista(int verticeDestino, double peso)
+ 	public void agregarVecino(int verticeDestino, double peso)
  	{
- 		if (_aristasExistentes == -1)
+ 		if (_aristasExistentes == 0)
  		{
  			_vecinos.add(new Vecino(verticeDestino, peso));
  			_aristasExistentes ++;
@@ -54,6 +54,7 @@ public class Vertice {
  		Optional<Vecino> vecino = _vecinos.stream().filter(x -> verticeFinal == x.obtenerDestino()).findFirst();
  		
  		if (vecino.isPresent()) {
+ 			_aristasExistentes --;
  			_vecinos.remove(vecino.get());
  		}
  	}

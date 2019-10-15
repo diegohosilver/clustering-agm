@@ -45,7 +45,7 @@ Es una `Clase` que guarda los siguientes datos:
 Es una `Clase` que implementa al vértice de un grafo <br>
 Cuenta con los siguientes métodos públicos:
 1. `list<Vecino> obtenerVecinos()`: Devuelve los vecinos del vértice.
-2. `void agregarArista(int, double)`: Registra un nuevo vecino con su correspondiente peso de arista.
+2. `void agregarVecino(int, double)`: Registra un nuevo vecino con su correspondiente peso de arista.
 3. `void eliminarVecino(int)`: Elimina un vecino del vértice.
 4. `int vecinoUnidoPorArista(int)`: A partir de un vertice determina el índice del vecino dentro de la lista de vecinos.
 #### `negocio`

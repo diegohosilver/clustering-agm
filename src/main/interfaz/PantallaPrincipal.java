@@ -17,20 +17,13 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
-import main.interfaz.controles.Boton;
-import main.interfaz.controles.Etiqueta;
-import main.interfaz.controles.Mapa;
-import main.interfaz.controles.Panel;
-import main.interfaz.controles.SelectorArchivo;
-import main.interfaz.controles.Texto;
-import main.interfaz.controles.combo.Combo;
-import main.interfaz.controles.combo.ComboItem;
-import main.interfaz.controles.general.Bordes;
-import main.interfaz.controles.general.Dimensiones;
+import main.interfaz.controles.*;
+import main.interfaz.controles.combo.*;
+import main.interfaz.controles.general.*;
 import main.interfaz.util.*;
+import main.interfaz.util.archivos.*;
 import main.negocio.Kruskal;
-import main.negocio.grafo.Arista;
-import main.negocio.grafo.Grafo;
+import main.negocio.grafo.*;
 
 import java.awt.Color;
 
@@ -177,7 +170,7 @@ public class PantallaPrincipal extends JFrame {
 	private void inicializarTexto() {
 		acciones.add(Etiqueta.generar("% Densidad:", new Dimensiones(1010, 5, 150, 20)));
 		
-		texto = Texto.generarTexto(new Dimensiones(1107, 5, 150, 20), Color.WHITE, true);
+		texto = Texto.generar(new Dimensiones(1107, 5, 150, 20), Color.WHITE, true);
 		acciones.add(texto);
 	}
 	

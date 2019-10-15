@@ -1,4 +1,4 @@
-package main.interfaz.util;
+package main.interfaz.util.archivos;
 
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 

@@ -59,8 +59,8 @@ public class Grafo {
 		else
 			_aristas.add(indice, arista);
 
-		_vertices.get(verticeInicial).agregarArista(verticeFinal, peso);
-		_vertices.get(verticeFinal).agregarArista(verticeInicial, peso);
+		_vertices.get(verticeInicial).agregarVecino(verticeFinal, peso);
+		_vertices.get(verticeFinal).agregarVecino(verticeInicial, peso);
 	}
 
 	public boolean existeArista(Arista arista)

@@ -1,4 +1,4 @@
-package main.interfaz.util;
+package main.interfaz.util.archivos;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,7 @@ import java.util.List;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 
 import main.interfaz.controles.combo.ComboItem;
+import main.interfaz.util.Coordenada;
 
 public class Instancias {
 	

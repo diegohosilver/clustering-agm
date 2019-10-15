@@ -3,16 +3,16 @@ package main.negocio.grafo;
 public class Arista {
 	private int _verticeInicial;
  	private int _verticeFinal;
- 	private float _peso;
+ 	private double _peso;
  
- 	public Arista(int verticeInicial, int verticeFinal, float peso)
+ 	public Arista(int verticeInicial, int verticeFinal, double peso)
  	{
  		_verticeInicial = verticeInicial;
  		_verticeFinal = verticeFinal;
  		_peso = peso;
  	}
  
- 	public float obtenerPeso()
+ 	public double obtenerPeso()
  	{
  		return _peso;
  	}
